@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Jeu Phaser</title>
+
+    <!-- Version minifiée de Phaser -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.90.0/phaser.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            /* Fond animé avec gradient qui bouge */
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #ff7e5f, #feb47b);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        h1 {
+            color: #ffcc00;
+            text-shadow: 2px 2px 4px #000;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border: 3px solid #ffcc00;
+            box-shadow: 5px 5px 15px #000;
+            border-radius: 40px;
+            background: linear-gradient(to bottom, #1e3c72, #2a5298);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Phaser Test</h1>
+
+    <script>
+        const config = {
+            type: Phaser.CANVAS, // utilisation du rendu Canvas HTML5
+            width: 800,
+            height: 600,
+            scene: {
+                preload() {},
+                create() {
+                    // Créer un petit rectangle jaune au centre
+                    this.player = this.add.rectangle(400, 300, 50, 50, 0xffff00);
+
+                    this.cursors = this.input.keyboard.createCursorKeys();
+
+                    // Ajouter un fond derrière le carré
+                    this.background = this.add.rectangle(400, 300, 800, 600, 0x1e3c72);
+                    this.background.setDepth(-1);
+                },
+                update() {
+                    const speed = 5;
+                    const halfSize = 10; // moitié de la taille du carré
+
+                    // Déplacement avec limites pour ne pas dépasser le canvas
+                    if (this.cursors.left.isDown && this.player.x - halfSize > 0) this.player.x -= speed;
+                    if (this.cursors.right.isDown && this.player.x + halfSize < 800) this.player.x += speed;
+                    if (this.cursors.up.isDown && this.player.y - halfSize > 0) this.player.y -= speed;
+                    if (this.cursors.down.isDown && this.player.y + halfSize < 600) this.player.y += speed;
+                }
+            }
+        };
+
+        const game = new Phaser.Game(config);
+    </script>
+
+</body>
+</html>
