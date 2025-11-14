@@ -1,7 +1,13 @@
-const http = require ('http');
-const server = http.createServer((req, res) => {
-    res.end('Bienvenue sur mon server Node.js !');
+const express = require('express');
+const path = require('path');
+const app = express();
+
+app.use(express.static(__dirname));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html')); // remplace par ton fichier HTML
 });
-server.listen(3000, () => {
-    console.log('Le serveur écoute sur le port 3000');
+
+app.listen(3000, () => {
+    console.log('Serveur lancé sur http://localhost:3000');
 });
